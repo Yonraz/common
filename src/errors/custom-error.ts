@@ -1,4 +1,4 @@
-import { ErrorResponse } from "../../../auth/src/types/error-response-type";
+import { ErrorResponse } from "../types/error-response-type";
 
 export abstract class CustomError extends Error {
   abstract statusCode: number;

@@ -1,5 +1,5 @@
 import { ValidationError } from "express-validator";
-import { ErrorResponse } from "../../../auth/src/types/error-response-type";
+import { ErrorResponse } from "../types/error-response-type";
 import { CustomError } from "./custom-error";
 
 export class RequestValidationError extends CustomError {

@@ -1,4 +1,4 @@
-import { ErrorResponse } from "../../../auth/src/types/error-response-type";
+import { ErrorResponse } from "../types/error-response-type";
 import { CustomError } from "./custom-error";
 
 export class DatabaseConnectionError extends CustomError {
