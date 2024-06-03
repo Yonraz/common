@@ -1,6 +1,6 @@
 {
   "name": "@yonraztickets/common",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -20,6 +20,7 @@
     "express": "^4.19.2",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
