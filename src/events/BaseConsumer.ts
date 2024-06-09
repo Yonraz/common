@@ -14,15 +14,15 @@ export abstract class BaseConsumer<T extends Event> {
     payload: EachMessagePayload
   ): Promise<void>;
 
-  private kafka: Kafka;
+  protected client: Kafka;
   protected consumer: Consumer | undefined;
 
-  constructor(kafka: Kafka) {
-    this.kafka = kafka;
+  constructor(kafkaClient: Kafka) {
+    this.client = kafkaClient;
   }
 
   async consume() {
-    this.consumer = this.kafka.consumer({
+    this.consumer = this.client.consumer({
       groupId: this.groupId,
     });
     await this.consumer.connect();

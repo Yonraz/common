@@ -9,8 +9,10 @@ interface Event {
 export abstract class BaseProducer<T extends Event> {
   abstract topic: T["topic"];
   protected producer: Producer;
+  protected client: Kafka;
 
   constructor(kafka: Kafka) {
+    this.client = kafka;
     this.producer = kafka.producer();
   }
 
