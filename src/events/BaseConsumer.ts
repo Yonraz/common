@@ -9,25 +9,36 @@ interface Event {
 export abstract class BaseConsumer<T extends Event> {
   abstract topic: T["topic"];
   abstract groupId: string;
-  abstract onMessage(data: T["data"], payload: EachMessagePayload): void;
+  abstract onMessage(
+    data: T["data"],
+    payload: EachMessagePayload
+  ): Promise<void>;
 
   private kafka: Kafka;
-  private consumer: Consumer | undefined;
+  protected consumer: Consumer | undefined;
 
   constructor(kafka: Kafka) {
     this.kafka = kafka;
   }
 
   async consume() {
-    this.consumer = this.kafka.consumer({ groupId: this.groupId });
+    this.consumer = this.kafka.consumer({
+      groupId: this.groupId,
+    });
     await this.consumer.connect();
     await this.consumer.subscribe({ topic: this.topic, fromBeginning: true });
 
     await this.consumer.run({
+      autoCommit: false,
       eachMessage: async (payload: EachMessagePayload) => {
         console.log(`Message received: ${this.topic} / ${this.groupId}`);
         const parsedData = this.parseMessage(payload);
-        this.onMessage(parsedData, payload);
+        try {
+          await this.onMessage(parsedData, payload);
+          await this.commitOffset(payload);
+        } catch (err) {
+          if (err instanceof Error) console.error(err.message);
+        }
       },
     });
   }
@@ -36,6 +47,15 @@ export abstract class BaseConsumer<T extends Event> {
     const { message } = payload;
     const data = message.value?.toString();
     return data ? JSON.parse(data) : null;
+  }
+
+  async commitOffset(payload: EachMessagePayload) {
+    if (this.consumer) {
+      const { topic, partition, message } = payload;
+      const offset = (parseInt(message.offset, 10) + 1).toString();
+
+      await this.consumer.commitOffsets([{ topic, partition, offset }]);
+    }
   }
 
   async close() {
