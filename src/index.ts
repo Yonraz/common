@@ -18,6 +18,7 @@ export * from "./events/VinylCreatedEvent";
 export * from "./events/VinylUpdatedEvent";
 
 export * from "./events/types/order-status";
+export * from "./events/types/genre-enum";
 
 export * from "./events/OrderCreatedEvent";
 export * from "./events/OrderCancelledEvent";
