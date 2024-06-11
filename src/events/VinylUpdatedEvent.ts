@@ -1,7 +1,7 @@
 import { Topics } from "./TopicEnum";
 import { Genre } from "./types/genre-enum";
 
-export interface TicketUpdatedEvent {
+export interface VinylUpdatedEvent {
   topic: Topics.VinylUpdated;
   data: {
     id: string;
