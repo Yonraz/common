@@ -1,5 +1,5 @@
 {
-  "name": "@yonraztickets/common",
+  "name": "@yonrazvinyl/common",
   "version": "1.0.19",
   "description": "",
   "main": "./build/index.js",
